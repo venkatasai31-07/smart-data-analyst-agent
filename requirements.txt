@@ -7,3 +7,7 @@ faiss-cpu==1.8.0
 python-dotenv==1.0.1
 plotly==5.20.0
 tiktoken==0.6.0
+fastapi
+uvicorn
+python-multipart
+openpyxl

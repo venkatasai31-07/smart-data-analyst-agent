@@ -26,9 +26,9 @@ class DataProcessor:
                 
         return cleaned_df
 
-    def generate_automated_insights(self, df: pd.DataFrame) -> str:
-        """Uses LLM to generate automated insights like trends and outliers."""
-        # Get basic stats to feed to LLM
+    def generate_automated_insights(self, df: pd.DataFrame) -> dict:
+        """Uses LLM to generate structured structured JSON insights for Story Mode and Dataset Brain."""
+        import json
         summary_stats = df.describe(include='all').to_string()
         head_data = df.head(3).to_string()
         columns_info = list(df.columns)
@@ -36,24 +36,35 @@ class DataProcessor:
         prompt = PromptTemplate(
             input_variables=["columns", "head", "summary"],
             template="""
-            You are an expert AI Data Analyst. I have uploaded a dataset.
-            Here are the columns: {columns}
+            You are an expert AI Data Scientist and Storyteller.
+            Dataset Columns: {columns}
+            First 3 rows: {head}
+            Summary Stats: {summary}
             
-            First 3 rows:
-            {head}
-            
-            Summary statistics:
-            {summary}
-            
-            Please provide a brief, professional summary of the automated insights. 
-            Highlight any potential top trends, outliers, or key observations. 
-            Keep it under 3 paragraphs and use bullet points for clarity.
+            You must output a strictly valid JSON object. Do not include markdown code blocks.
+            Format:
+            {{
+                "dataset_brain": {{
+                    "problem_type": "Classification, Regression, Clustering, or NLP",
+                    "target_prediction": "Which column is the most likely target to predict?",
+                    "ml_suggested": "Which specific machine learning algorithm would you suggest using?",
+                    "warnings": ["A short warning about missing data, outliers, or imbalance", "Another brief warning"]
+                }},
+                "story_mode": "Write a 2-paragraph compelling narrative explaining the most interesting trends and user behaviors found in this data. Sound like a business article, do not use bullet points or code."
+            }}
             """
         )
         
         chain = prompt | self.llm
-        response = chain.invoke({"columns": columns_info, "head": head_data, "summary": summary_stats})
-        return response.content
+        try:
+            response = chain.invoke({"columns": columns_info, "head": head_data, "summary": summary_stats})
+            raw_text = response.content.replace("```json", "").replace("```", "").strip()
+            return json.loads(raw_text)
+        except Exception as e:
+            return {
+                "dataset_brain": {"problem_type": "Unknown", "target_prediction": "Unknown", "ml_suggested": "Unknown", "warnings": ["Failed to extract brain logic. Please check data."]},
+                "story_mode": f"We encountered an error analyzing the story: {str(e)}"
+            }
 
     def analyze_query(self, df: pd.DataFrame, query: str) -> str:
         """Answers statistical/analytical queries using pandas summary stats."""

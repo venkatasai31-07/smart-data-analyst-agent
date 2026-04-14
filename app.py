@@ -62,17 +62,17 @@ def main():
     # --- MAIN UI LOGIC ---
     if uploaded_file is None:
         # EMPTY STATE
-        st.header("Welcome to Smart Data Analyst Agent 🤖")
+        st.header("Welcome to Smart Data Analyst Agent 📊")
         st.markdown("""
-        ### Strategic Intelligence for your Datasets.
-        Upload a CSV file in the sidebar to begin your analytical journey.
+        Upload a CSV file in the sidebar to begin analyzing your dataset.
         
-        **Available Features:**
-        - 📊 **Executive Dashboard**: See the top-line numbers instantly.
-        - 📈 **Visual Intelligence**: Auto-generated charts and trends.
-        - 💬 **AI Agent**: Natural language conversation with your data.
-        - 📑 **Record Explorer**: Deep-dive into raw data records.
+        **Features:**
+        - 📊 **Analytics Overview**: Top-level metrics and performance data.
+        - 📉 **Visual Intelligence**: Auto-generated interactive charts.
+        - 💬 **AI Agent**: Natural language queries about your dataset.
+        - 📑 **Data Explorer**: Search and filter raw data.
         """)
+        st.info("👈 **Upload a CSV file in the settings panel to begin.**")
         st.image("https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=1200", caption="Intelligence at Scale")
         return
 
@@ -110,7 +110,8 @@ def main():
 
         # 📊 TAB 1: EXECUTIVE DASHBOARD
         with tab1:
-            st.header("Strategic Overview")
+            st.header("📊 Analytics Overview")
+            st.caption("Key performance metrics and trends")
             
             # Metric Cards Row
             m1, m2, m3, m4 = st.columns(4)

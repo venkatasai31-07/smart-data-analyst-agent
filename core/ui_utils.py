@@ -1,29 +1,39 @@
 import streamlit as st
 
 def inject_custom_css():
-    """Injects professional Corporate Dark CSS for a premium look."""
+    """Injects a clean, SaaS-grade Streamlit UI for professional product feel."""
     st.markdown("""
         <style>
-        /* Main background and font */
+        /* Main background */
         .stApp {
             background-color: #0e1117;
-            color: #fafafa;
+            color: #f8fafc;
         }
 
         /* Sidebar styling */
         [data-testid="stSidebar"] {
             background-color: #1a1c24;
-            border-right: 1px solid #30363d;
+            border-right: 1px solid rgba(255,255,255,0.05);
         }
 
-        /* Metric cards styling */
+        /* Metric cards styling: Keep subtle card styling */
         div[data-testid="metric-container"] {
-            background-color: #1a1c24;
-            border: 1px solid #30363d;
-            padding: 20px;
+            background: #161821;
+            border: 1px solid rgba(255,255,255,0.06);
             border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-            text-align: center;
+            padding: 16px;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+
+        /* Smooth hover (very subtle) */
+        div[data-testid="metric-container"]:hover {
+            border-color: rgba(100,150,255,0.25);
+        }
+
+        [data-testid="stMetricValue"] {
+            font-size: 1.8rem !important;
+            font-weight: 600;
         }
 
         /* Tab styling */
@@ -32,46 +42,55 @@ def inject_custom_css():
         }
 
         .stTabs [data-baseweb="tab"] {
-            height: 50px;
+            height: 48px;
             white-space: pre-wrap;
             background-color: transparent;
             border-radius: 4px;
             color: #8b949e;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 500;
         }
 
         .stTabs [aria-selected="true"] {
-            color: #58a6ff !important;
-            border-bottom: 2px solid #58a6ff !important;
+            color: #cbd5e1 !important;
+            border-bottom: 2px solid #3b82f6 !important;
         }
 
-        /* Header styling */
+        /* Header styling (cleaner) */
         h1, h2, h3 {
-            color: #58a6ff;
-            font-weight: 700;
+            color: #f8fafc;
+            font-weight: 600;
         }
 
         /* Buttons styling */
         .stButton > button {
             border-radius: 8px;
             font-weight: 500;
-            background-color: #21262d;
-            border: 1px solid #30363d;
-            transition: all 0.3s ease;
+            background-color: #1f232d;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.2s ease;
         }
 
         .stButton > button:hover {
-            border-color: #58a6ff;
-            color: #58a6ff;
+            border-color: rgba(100,150,255,0.4);
+            color: #cbd5e1;
         }
         
         /* Expander styling */
         .streamlit-expanderHeader {
-            background-color: #1a1c24;
+            background-color: #161821;
             border-radius: 8px;
-            border: 1px solid #30363d;
+            border: 1px solid rgba(255,255,255,0.05);
         }
+        
+        /* Chat Styling */
+        .stChatMessage {
+            background: #1a1c24 !important;
+            border: 1px solid rgba(255,255,255,0.05) !important;
+            border-radius: 8px !important;
+            margin-bottom: 1rem;
+        }
+
         </style>
     """, unsafe_allow_html=True)
 
